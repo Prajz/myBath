@@ -131,6 +131,8 @@ public class MapsFragment extends Fragment {
         Button clButton = rootView.findViewById(R.id.clearbut);
 
         clButton.setOnClickListener( v -> {
+            et_text1.setText("");
+            et_text2.setText("");
             aprotme.setText("");
             map.getOverlays().clear();
             map.getOverlays().add(this.mRotationGestureOverlay);
