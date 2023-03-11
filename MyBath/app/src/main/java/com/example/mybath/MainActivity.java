@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new HomeFragment());
         Fragment testfrh = new HomeFragment();
         Fragment testmp = new MapsFragment();
+        Fragment evn = new EventsFragment();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(testmp);
                     break;
                 case R.id.events:
-                    replaceFragment(new EventsFragment());
+                    replaceFragment(evn);
                     break;
             }
             final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);

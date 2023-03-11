@@ -276,7 +276,7 @@ public class MapsFragment extends Fragment {
         startMarker.setTitle(stPoint);
         Drawable startIcon = ResourcesCompat.getDrawable(getResources(),R.drawable.marker_departure, null);
         startMarker.setIcon(startIcon);
-        startMarker.setSnippet(DescriptionStart);
+        startMarker.setSubDescription(DescriptionStart);
         waypoints.add(start);
 
         // End markers
@@ -286,7 +286,7 @@ public class MapsFragment extends Fragment {
         String enPoint = et_text2.getText().toString();
         endMarker.setTitle(enPoint);
         endMarker.setIcon(endIcon);
-        endMarker.setSnippet(DescriptionEnd);
+        endMarker.setSubDescription(DescriptionEnd);
         waypoints.add(end);
 
         RoadManager roadManager = new OSRMRoadManager(ctx, MY_USER_AGENT);
