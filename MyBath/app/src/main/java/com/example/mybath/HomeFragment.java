@@ -88,10 +88,7 @@ public class HomeFragment extends Fragment {
                     //gets main object from json
 
                     String realte= mainar.getString("temp");
-                    float tempr = Float.parseFloat(realte);
-                    int tempre = Math.round(tempr - 273);
-                    //kelvin to celcius
-                    String temprea = tempre + "°C";
+                    String temprea = temptoc(realte);
                     temp.setText(temprea);
                     JSONArray weatar = (JSONArray) response.get("weather");
                     //gets weather description from weather
@@ -100,9 +97,7 @@ public class HomeFragment extends Fragment {
                     status.setText(statusd);
                     //gets feel like temp from weather array
                     String feelte = mainar.getString("feels_like");
-                    float tempf = Float.parseFloat(feelte);
-                    int tempfe = Math.round(tempf - 273);
-                    String tempfee = tempfe + "°C";
+                    String tempfee = temptoc(feelte);
                     tempMin.setText("Feels like : " + tempfee);
                     JSONObject windar = (JSONObject) response.get("wind");
                     String winds = windar.getString("speed");
@@ -274,4 +269,12 @@ public class HomeFragment extends Fragment {
             i.printStackTrace();
             }
     }
-}}
+}
+
+    public String temptoc(String bongo){
+        float tempr = Float.parseFloat(bongo);
+        int tempre = Math.round(tempr - 273);
+        //kelvin to celcius
+        String temprea = tempre + "°C";
+        return temprea;
+    }}
