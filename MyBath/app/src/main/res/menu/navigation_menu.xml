@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menuSettings"
+        android:icon="@drawable/settings"
+        android:title="@string/Settings" />
+
+    <item
+        android:id="@+id/menuNotifications"
+        android:icon="@drawable/notifications"
+        android:title="@string/Notifications" />
+
+    <item
+        android:id="@+id/menuCalender"
+        android:icon="@drawable/calender"
+        android:title="@string/calender" />
+
+
+
+
+</menu>

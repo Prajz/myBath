@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:paddingTop="?attr/actionBarSize">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946">
+
+    </org.osmdroid.views.MapView>
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextOne"
+        android:layout_width="315dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:drawableStart="@android:drawable/ic_menu_mylocation"
+        android:hint="location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextTwo"
+        android:layout_width="315dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="540dp"
+        android:drawableStart="@android:drawable/ic_menu_compass"
+        android:hint="destination"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextOne" />
+
+    <Button
+        android:id="@+id/simpleButton"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#30297E"
+        android:text="Go"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextTwo" />
+
+    <TextView
+        android:id="@+id/outpTime"
+        android:layout_width="260dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="65dp"
+        android:gravity="center"
+        android:textColor="#B706F8"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/map"
+        app:layout_constraintTop_toTopOf="@id/map" />
+
+    <RadioButton
+        android:id="@+id/centloc"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="450dp"
+        android:gravity="center"
+        android:textColorHighlight="#042AE8"
+        android:textColorLink="#0141E4"
+        app:icon="@android:drawable/ic_menu_mylocation"
+        app:iconPadding="1dp"
+        app:iconTint="#673AB7"
+        app:layout_constraintStart_toStartOf="@id/simpleButton"
+        app:layout_constraintTop_toTopOf="@id/simpleButton" />
+
+    <Button
+        android:id="@+id/clearbut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="5dp"
+        android:width="100dp"
+        android:height="30dp"
+        android:backgroundTint="#EC0606"
+        android:text="Clear"
+        android:textColor="#EBCFF1"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="@id/simpleButton"
+        app:layout_constraintTop_toBottomOf="@id/autoCompleteTextTwo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

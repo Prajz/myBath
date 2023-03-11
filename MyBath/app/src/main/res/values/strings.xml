@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MyBath</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="profile" />
+    <string name="others" />
+    <string name="notifications" />
+    <string name="settings" />
+    <string name="Profile">Profile</string>
+    <string name="Notifications">Notifications</string>
+    <string name="Settings">Settings</string>
+    <string name="Others">Others</string>
+    <string name="Calender">Google Calender</string>
+    <string name="LogOut">Log Out</string>
+    <string name="GaurangAggarwal">Gaurang Aggarwal</string>
+    <string name="ga123_bath_ac_uk">ga123@bath.ac.uk</string>
+    <string name="gaurang_aggarwal">Gaurang Aggarwal</string>
+    <string name="Search">Search</string>
+    <string name="search">search...</string>
+    <string name="for_more_information_click_here">For more information click here</string>
+    <string name="what_s_on">What\'s On!</string>
+    <string name="search1">Search...</string>
+    <string name="calender">Calender</string>
+</resources>

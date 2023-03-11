@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/advent_pro_semibold</item>
+        <item>@font/akronim</item>
+        <item>@font/alegreya_sans_bold</item>
+        <item>@font/alegreya_sans_light_italic</item>
+        <item>@font/aubrey</item>
+        <item>@font/cardo_italic</item>
+        <item>@font/gothic_a1_semibold</item>
+    </array>
+</resources>

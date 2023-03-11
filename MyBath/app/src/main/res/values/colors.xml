@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FDF2D8</color>
+    //bath colours :-
+    <color name = "polynesian_blue">#004890</color>
+    <color name = "xanthous">#F9B435</color>
+    <color name = "Oxford_blue">#0B2545</color> //this colour not working
+    <color name = "united_nations_blue">#4197E2</color>
+    <color name = "papaya_whip">#FDF2D8</color>
+
+    <color name="colourPrimary">#0B2545</color>
+    <color name="darkPrimary">#020912</color>
+
+</resources>
