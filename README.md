@@ -1,2 +1,2 @@
 # myBath
-app designed to cater to uni of bath students with an interactive map and events page
+An android application designed to cater to University of Bath students/visitors with an interactive map and and Events page
