@@ -72,26 +72,26 @@
 
     <TextView
         android:id="@+id/outpTime"
-        android:layout_width="260dp"
+        android:layout_width="350dp"
         android:layout_height="20dp"
-        android:layout_marginStart="65dp"
+        android:layout_marginStart="25dp"
         android:gravity="center"
         android:textColor="#B706F8"
-        android:textSize="13sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/map"
         app:layout_constraintTop_toTopOf="@id/map" />
 
     <RadioButton
         android:id="@+id/centloc"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="175dp"
-        android:layout_marginTop="450dp"
+        android:layout_width="29dp"
+        android:layout_height="31dp"
+        android:layout_marginLeft="185dp"
+        android:layout_marginTop="460dp"
+        android:drawableLeft="@android:drawable/ic_menu_mylocation"
         android:gravity="center"
         android:textColorHighlight="#042AE8"
         android:textColorLink="#0141E4"
-        app:icon="@android:drawable/ic_menu_mylocation"
         app:iconPadding="1dp"
         app:iconTint="#673AB7"
         app:layout_constraintStart_toStartOf="@id/simpleButton"
@@ -112,6 +112,18 @@
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="@id/simpleButton"
         app:layout_constraintTop_toBottomOf="@id/autoCompleteTextTwo" />
+
+    <ImageButton
+        android:id="@+id/clocstart"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:clickable="true"
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteTextOne"
+        app:layout_constraintTop_toTopOf="@id/autoCompleteTextOne"
+        android:src="@drawable/icons850"  />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

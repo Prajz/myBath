@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,6 +130,87 @@ public class MapsFragment extends Fragment {
         RadioButton centButton = rootView.findViewById(R.id.centloc);
         TextView aprotme = rootView.findViewById(R.id.outpTime);
         Button clButton = rootView.findViewById(R.id.clearbut);
+        ImageButton clockstart = rootView.findViewById(R.id.clocstart);
+
+
+        clockstart.setOnClickListener(v -> {
+
+            String str2 = et_text2.getText().toString();
+
+            RequestQueue queuemd = Volley.newRequestQueue(getContext());
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildingstest,null, response -> {
+                try {
+                    aprotme.setText("");
+                    JSONObject ening = (JSONObject) response.get(str2);
+                    String endesc = ening.getString("description");
+                    ArrayList<GeoPoint>StartPoints = new ArrayList<>();
+                    ArrayList<GeoPoint>StartPoints1 = new ArrayList<>();
+                    ArrayList<GeoPoint>EndPoints = hiarl(ening);
+                    String stdesc1 = "Your location";
+                    try{
+                        if (oncampus(uLocationOverlay.getMyLocation())) {
+                            JSONArray keys = response.names();
+                            Double curdiff = 1231.232123;
+                            GeoPoint acloc = uLocationOverlay.getMyLocation();
+                            System.out.println(acloc);
+                            GeoPoint ste1cord = new GeoPoint(uLocationOverlay.getMyLocation());
+                            StartPoints1.add(ste1cord);
+                            String bil = "";
+                            for (int i = 1; i < (response.length()); i++) {
+                                String curob = keys.getString(i);
+                                JSONObject curaob = (JSONObject) response.get(curob);
+                                JSONArray st1 = curaob.getJSONArray("start1");
+                                JSONArray st2 = curaob.getJSONArray("start2");
+                                Double checkdif = acloc.distanceToAsDouble(new GeoPoint(st1.getDouble(0), st1.getDouble(1)));
+                                if (st2.length() == 2) {
+                                    Double checkdif2 = acloc.distanceToAsDouble(new GeoPoint(st2.getDouble(0), st2.getDouble(1)));
+                                    if (checkdif2 < checkdif) {
+                                        checkdif = checkdif2;
+                                        System.out.println(checkdif2);
+                                        System.out.println(checkdif);
+                                    }
+                                }
+                                if (checkdif < curdiff) {
+                                    curdiff = checkdif;
+                                    bil = curob;
+                                }
+                            }
+                            JSONObject sting = (JSONObject) response.get(bil);
+
+                            StartPoints = hiarl(sting);
+
+                            String stdesc = sting.getString("description");
+
+                            if (curdiff > 50.0){
+                                String timece = pathFinder(StartPoints1, StartPoints,bil, stdesc1, stdesc, ctx);
+                                String timecec = pathFinder1(StartPoints, EndPoints,str2, stdesc, endesc, ctx);
+                                String aproxtimeece = times(timece, timecec);
+                                aprotme.setText("Total " + aproxtimeece);
+                        }else{
+                                String timece = pathFinder(StartPoints, EndPoints, str2, stdesc1, endesc, ctx);
+                                String aproxtimeece = estimtime(timece);
+                                aprotme.setText(aproxtimeece);
+                            }
+                        } else {
+                            aprotme.setText("You can only use this feature on campus");
+                        }
+
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                        aprotme.setText("Enable location access to use this feature");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    aprotme.setText("Enter a valid Destination");
+
+                }
+            }, error -> aprotme.setText("Enter a valid destination"));
+
+            queuemd.add(request);
+        });
+
+
 
         clButton.setOnClickListener( v -> {
             et_text1.setText("");
@@ -162,100 +244,60 @@ public class MapsFragment extends Fragment {
             }
         });
 
-        goButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // NEED TO VALIDATE INPUT
-                String str1 = et_text1.getText().toString();
-                String str2 = et_text2.getText().toString();
-                // this is where we will call the function to access coordinates and information
+        goButton.setOnClickListener(view -> {
+            // NEED TO VALIDATE INPUT
+            String str1 = et_text1.getText().toString();
+            String str2 = et_text2.getText().toString();
+            // this is where we will call the function to access coordinates and information
 
-                RequestQueue queuemd = Volley.newRequestQueue(getContext());
+            RequestQueue queuemd = Volley.newRequestQueue(getContext());
 
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildingstest,null, new Response.Listener<JSONObject>(){
-                    public void onResponse(JSONObject response) {
-                        try {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildingstest,null, response -> {
+                try {
+                    aprotme.setText("");
 
-                            JSONObject sting = (JSONObject) response.get(str1);
-                            JSONObject ening = (JSONObject) response.get(str2);
-                            String stdesc = sting.getString("description");
-                            String endesc = ening.getString("description");
-                            //pass to function to compare different paths
-                            ArrayList<GeoPoint>StartPoints = new ArrayList<>();
-                            ArrayList<GeoPoint>EndPoints = new ArrayList<>();
-                            JSONArray ste1 = (JSONArray) sting.get("start1");
-                            JSONArray ste2 = (JSONArray) sting.get("start2");
-                            GeoPoint ste1cord = new GeoPoint(ste1.getDouble(0), ste1.getDouble(1));
-                            if (ste2.length() == 2){
-                                GeoPoint ste2cord = new GeoPoint(ste2.getDouble(0), ste2.getDouble(1));
-                                StartPoints.add(ste2cord);
-                            }
-                            StartPoints.add(ste1cord);
-                            JSONArray end1 = (JSONArray) ening.get("start1");
-                            JSONArray end2 = (JSONArray) ening.get("start2");
-                            if (end2.length() == 2){
-                                GeoPoint end2cord = new GeoPoint(end2.getDouble(0), end2.getDouble(1));
-                                EndPoints.add(end2cord);
-                            }
+                    JSONObject sting = (JSONObject) response.get(str1);
+                    JSONObject ening = (JSONObject) response.get(str2);
+                    String stdesc = sting.getString("description");
+                    String endesc = ening.getString("description");
+                    //pass to function to compare different paths
+                    ArrayList<GeoPoint>StartPoints;
+                    StartPoints = hiarl(sting);
 
-                            GeoPoint end1cord = new GeoPoint(end1.getDouble(0), end1.getDouble(1));
+                    ArrayList<GeoPoint>EndPoints;
+                    EndPoints = hiarl(ening);
+                    String times = pathFinder(StartPoints, EndPoints, str2 , stdesc,endesc, ctx);
+                    String aproxtimee = estimtime(times);
+                    aprotme.setText(aproxtimee);
 
-                            EndPoints.add(end1cord);
-                            String times = pathFinder(StartPoints, EndPoints, stdesc,endesc, ctx);
-                            Double timed = Double.valueOf(times);
-                            Double timemind = (double) timed / 60.0;
-                            int timemini = (int) Math.floor(timemind);
-                            Double timesecd = (double) timed - (60.0*timemini);
-                            int timeseci = (int) Math.floor(timesecd);
-                            String timesecs = String.valueOf(timeseci);
-                            String timemins = String.valueOf(timemini);
-                            aprotme.setText("Estimated time - " + timemins + " m : " + timesecs + " s");
-                            String aproxtimee = "Estimated time - " + timemins + " m : " + timesecs + " s";
-                            if  (timemini == 0){
-                                aproxtimee = "Estimated time - " + timesecs + " seconds";
-                            }
-                            aprotme.setText(aproxtimee);
-
-                        } catch (JSONException md) {
-                            System.out.println("bong2");
-                            md.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                queuemd.add(request);
-            }
-        });
-        et_text1.setOnKeyListener(new View.OnKeyListener(){
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event){
-                if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
-                    String strValue = et_text1.getText().toString();
-                    System.out.printf("text1: %s%n", strValue);
-                    return true;
+                } catch (JSONException md) {
+                    System.out.println("bong2");
+                    md.printStackTrace();
+                    aprotme.setText("Enter a valid Location/Destination.");
                 }
-                return false;
-            }
+            }, error -> Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show());
+            queuemd.add(request);
         });
-        et_text2.setOnKeyListener(new View.OnKeyListener(){
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event){
-                if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
-                    String strValue = et_text2.getText().toString();
-                    System.out.printf("text2: %s%n", strValue);
-                    return true;
-                }
-                return false;
+        et_text1.setOnKeyListener((v, keyCode, event) -> {
+            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                String strValue = et_text1.getText().toString();
+                System.out.printf("text1: %s%n", strValue);
+                return true;
             }
+            return false;
+        });
+        et_text2.setOnKeyListener((v, keyCode, event) -> {
+            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                String strValue = et_text2.getText().toString();
+                System.out.printf("text2: %s%n", strValue);
+                return true;
+            }
+            return false;
         });
         return rootView;
     }
 
-    public String createPath(GeoPoint start, GeoPoint end, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String createPath(GeoPoint start, GeoPoint end,String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
         map.getOverlays().clear();
         MyLocationNewOverlay uLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx), map);
         uLocationOverlay.enableMyLocation();
@@ -273,7 +315,11 @@ public class MapsFragment extends Fragment {
         Marker startMarker = new Marker(map);
         startMarker.setPosition(start);
         String stPoint = et_text1.getText().toString();
-        startMarker.setTitle(stPoint);
+        if (stPoint.startsWith("")){
+            startMarker.setTitle("You");
+        }else{
+            startMarker.setTitle(stPoint);
+        }
         Drawable startIcon = ResourcesCompat.getDrawable(getResources(),R.drawable.marker_departure, null);
         startMarker.setIcon(startIcon);
         startMarker.setSubDescription(DescriptionStart);
@@ -283,8 +329,7 @@ public class MapsFragment extends Fragment {
         Marker endMarker = new Marker(map);
         Drawable endIcon = ResourcesCompat.getDrawable(getResources(),R.drawable.marker_destination, null);
         endMarker.setPosition(end);
-        String enPoint = et_text2.getText().toString();
-        endMarker.setTitle(enPoint);
+        endMarker.setTitle(endn);
         endMarker.setIcon(endIcon);
         endMarker.setSubDescription(DescriptionEnd);
         waypoints.add(end);
@@ -302,7 +347,7 @@ public class MapsFragment extends Fragment {
         return timet;
     }
 
-    public String pathFinder(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String pathFinder(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
 
         // Waypoint array
         GeoPoint shortest_start = null;
@@ -321,7 +366,29 @@ public class MapsFragment extends Fragment {
                 }
             }
         }
-        return createPath(shortest_start,shortest_end,DescriptionStart,DescriptionEnd,ctx);
+        return createPath(shortest_start,shortest_end,endn,DescriptionStart,DescriptionEnd,ctx);
+
+    }
+    public String pathFinder1(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints,String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+
+        // Waypoint array
+        GeoPoint shortest_start = null;
+        GeoPoint shortest_end = null;
+        double distance = 9999999.9;
+        double current_distance;
+
+        for (GeoPoint start : startPoints) {
+            for (GeoPoint end : endPoints) {
+                current_distance = Double.parseDouble(distancecalc(start,end,ctx)[0]);
+                if(distance > current_distance){
+                    distance = current_distance;
+                    shortest_start = start;
+                    shortest_end = end;
+
+                }
+            }
+        }
+        return createPath1(shortest_start,shortest_end,endn, DescriptionStart,DescriptionEnd,ctx);
 
     }
 
@@ -367,8 +434,98 @@ public class MapsFragment extends Fragment {
         return false;
     }
 
+    public String estimtime(String ti){
+        Double timed = Double.valueOf(ti);
+        Double timemind = (double) timed / 60.0;
+        int timemini = (int) Math.floor(timemind);
+        Double timesecd = (double) timed - (60.0*timemini);
+        int timeseci = (int) Math.floor(timesecd);
+        String timesecs = String.valueOf(timeseci);
+        String timemins = String.valueOf(timemini);
+        String aproxtimee = "Estimated Time - " + timemins + " m : " + timesecs + " s";
+        if  (timemini == 0){
+            aproxtimee = "Estimated Time - " + timesecs + " seconds";
+        }
+        return aproxtimee;
+    }
+
+    public ArrayList<GeoPoint> hiarl(JSONObject response) {
+        try {
+            ArrayList<GeoPoint> bong = new ArrayList<>();
+
+            JSONArray ste1 = (JSONArray) response.get("start1");
+
+            JSONArray ste2 = (JSONArray) response.get("start2");
+            GeoPoint ste1cord = new GeoPoint(ste1.getDouble(0), ste1.getDouble(1));
+            if (ste2.length() == 2) {
+                GeoPoint ste2cord = new GeoPoint(ste2.getDouble(0), ste2.getDouble(1));
+                bong.add(ste2cord);
+            }
+            bong.add(ste1cord);
+
+            return bong;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayList<GeoPoint> emp = new ArrayList<>();
+        return emp;
+    }
+
+    public String createPath1(GeoPoint start, GeoPoint end, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+        String timet = distancecalc(start,end,ctx)[1];
+
+        // Waypoint array
+        ArrayList<GeoPoint> waypoints = new ArrayList<>();
+        System.out.println(start);
+        System.out.println(end);
+        // Start markers
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(start);
+        String stPoint = et_text1.getText().toString();
+        if (stPoint.startsWith("")){
+            startMarker.setTitle("Your next location");
+        }else{
+            startMarker.setTitle(stPoint);
+        }
+        Drawable startIcon = ResourcesCompat.getDrawable(getResources(),R.drawable.marker_departure, null);
+        startMarker.setIcon(startIcon);
+        startMarker.setSubDescription(DescriptionStart);
+        waypoints.add(start);
+
+        // End markers
+        Marker endMarker = new Marker(map);
+        Drawable endIcon = ResourcesCompat.getDrawable(getResources(),R.drawable.marker_destination, null);
+        endMarker.setPosition(end);
+        endMarker.setTitle(endn);
+        endMarker.setIcon(endIcon);
+        endMarker.setSubDescription(DescriptionEnd);
+        waypoints.add(end);
+
+        RoadManager roadManager = new OSRMRoadManager(ctx, MY_USER_AGENT);
+        ((OSRMRoadManager)roadManager).setMean(OSRMRoadManager.MEAN_BY_FOOT); // Calculate on foot
+
+        Road road = roadManager.getRoad(waypoints);// Find path using waypoints
+        Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+
+        // Apply overlay
+        map.getOverlays().add(roadOverlay);
+        map.getOverlays().add(startMarker);
+        map.getOverlays().add(endMarker);
+        return timet;
+    }
+
+    public String times(String t1, String t2){
+        String out= "";
+        Double time1 = Double.valueOf(t1);
+        Double time2 = Double.valueOf(t2);
+        Double total = time1 + time2;
+        String totalt = total.toString();
+        out = estimtime(totalt);
 
 
+        return out;
+    }
 
     public void onPause() {
         super.onPause();
