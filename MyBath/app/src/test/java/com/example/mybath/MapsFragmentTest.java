@@ -20,7 +20,7 @@ public class MapsFragmentTest extends MapsFragment{
         String in1 = "23.2";
         String in2 = "10.2";
         String expected = "Estimated Time - 33 seconds";
-
+        //for naivation from user's current location
         String actual = times(in1, in2);
 
         assertEquals(expected, actual);

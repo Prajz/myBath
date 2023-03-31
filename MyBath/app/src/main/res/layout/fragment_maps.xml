@@ -33,12 +33,14 @@
         android:background="@color/white"
         android:drawableStart="@android:drawable/ic_menu_mylocation"
         android:hint="location"
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/map"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:imeOptions="actionDone"/>
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextTwo"
@@ -50,11 +52,13 @@
         android:layout_marginBottom="540dp"
         android:drawableStart="@android:drawable/ic_menu_compass"
         android:hint="destination"
+        android:inputType="text"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextOne" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextOne"
+        android:imeOptions="actionDone"/>
 
     <Button
         android:id="@+id/simpleButton"
@@ -106,7 +110,7 @@
         android:width="100dp"
         android:height="30dp"
         android:backgroundTint="#EC0606"
-        android:text="Clear"
+        android:text="CLEAR"
         android:textColor="#EBCFF1"
         android:textSize="15sp"
         android:textStyle="bold|italic"

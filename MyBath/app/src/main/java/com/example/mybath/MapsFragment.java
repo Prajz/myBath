@@ -70,8 +70,8 @@ public class MapsFragment extends Fragment {
     // As a sample, few text are given below which can be populated in dropdown, when user starts typing
     // For example, when user types "a", text whichever starting with "a" will be displayed in dropdown
     // As we are using two MultiAutoCompleteTextView components, using two string array separately
-    String[] fewRandomSuggestedText = {"Eastwood","Westwood","Management Building","STV","The SU", "3 West North","The Market", "Norwood House", "Lime Tree", "Parade", "10 West","4 West Cafe","Applied Biomechanics Suite","Architecture & Civil Engineering","Bakeaway","Bale Haus"," Bus Stop","CAFÉ at Polden", "CAFÉ at The Edge" ,"Campus Infrastructure","Central Stores","Chancellors’ Building", "Chaplaincy Centre", "Chemical Engineering", "Chemistry", "Claverton Rooms", "Communications", "Computer Science", "Cotswold House", "Dental Centre", "Development & Alumni Relations", "Doctoral College", "East Accommodation Centre","Economics", "The Edge Arts","Education","Electronic & Electrical Engineering","Founders Hall","Fountain Canteen","Fresh Grocery Store", "Goods Received","Health","Library"};
-    String[] fewTags = {"Eastwood","Westwood","Management Building","STV","The SU", "3 West North", "The Market", "Norwood House", "Lime Tree", "Parade", "10 West","4 West Cafe","Applied Biomechanics Suite","Architecture & Civil Engineering","Bakeaway","Bale Haus"," Bus Stop","CAFÉ at Polden", "CAFÉ at The Edge" ,"Campus Infrastructure","Central Stores","Chancellors’ Building", "Chaplaincy Centre", "Chemical Engineering", "Chemistry", "Claverton Rooms", "Communications", "Computer Science", "Cotswold House", "Dental Centre", "Development & Alumni Relations", "Doctoral College", "East Accommodation Centre","Economics", "The Edge Arts","Education","Electronic & Electrical Engineering","Founders Hall","Fountain Canteen","Fresh Grocery Store", "Goods Received","Health","Library"};
+    String[] fewRandomSuggestedText = {"Prayer Room","6 West","Woodland Court","Wessex House","Eastwood","Westwood","Management Building","STV","The SU", "3 West North","The Market", "Norwood House", "Lime Tree", "Parade", "10 West","4 West Cafe","Applied Biomechanics Suite","Architecture & Civil Engineering","Bakeaway","Bale Haus","Bus Stop","CAFÉ at Polden", "CAFÉ at The Edge" ,"Campus Infrastructure","Central Stores","Chancellors’ Building", "Chaplaincy Centre", "Chemical Engineering", "Chemistry", "Claverton Rooms", "Communications", "Computer Science", "Cotswold House", "Dental Centre", "Development & Alumni Relations", "Doctoral College", "East Accommodation Centre","Economics", "The Edge Arts","Education","Electronic & Electrical Engineering","Founders Hall","Fountain Canteen","Fresh Grocery Store", "Goods Received","Health","Library"};
+    String[] fewTags = {"Prayer Room","6 West","Woodland Court","Wessex House","Eastwood","Westwood","Management Building","STV","The SU", "3 West North", "The Market", "Norwood House", "Lime Tree", "Parade", "10 West","4 West Cafe","Applied Biomechanics Suite","Architecture & Civil Engineering","Bakeaway","Bale Haus","Bus Stop","CAFÉ at Polden", "CAFÉ at The Edge" ,"Campus Infrastructure","Central Stores","Chancellors’ Building", "Chaplaincy Centre", "Chemical Engineering", "Chemistry", "Claverton Rooms", "Communications", "Computer Science", "Cotswold House", "Dental Centre", "Development & Alumni Relations", "Doctoral College", "East Accommodation Centre","Economics", "The Edge Arts","Education","Electronic & Electrical Engineering","Founders Hall","Fountain Canteen","Fresh Grocery Store", "Goods Received","Health","Library"};
     RotationGestureOverlay mRotationGestureOverlay = null;
     String MY_USER_AGENT = Configuration.getInstance().getUserAgentValue();
     @Nullable
@@ -111,7 +111,6 @@ public class MapsFragment extends Fragment {
         MyLocationNewOverlay uLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx), map);
         uLocationOverlay.enableMyLocation();
         map.getOverlays().add(uLocationOverlay);
-
         // Input box for starting and end destination
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, fewRandomSuggestedText);
         AutoCompleteTextView textView1 = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextOne);
@@ -132,8 +131,13 @@ public class MapsFragment extends Fragment {
         Button clButton = rootView.findViewById(R.id.clearbut);
         ImageButton clockstart = rootView.findViewById(R.id.clocstart);
 
+        aprotme.setText(" ");
+
+
 
         clockstart.setOnClickListener(v -> {
+
+            et_text1.setText("");
 
             String str2 = et_text2.getText().toString();
 
@@ -141,7 +145,7 @@ public class MapsFragment extends Fragment {
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildingstest,null, response -> {
                 try {
-                    aprotme.setText("");
+                    aprotme.setText(" ");
                     JSONObject ening = (JSONObject) response.get(str2);
                     String endesc = ening.getString("description");
                     ArrayList<GeoPoint>StartPoints = new ArrayList<>();
@@ -181,16 +185,18 @@ public class MapsFragment extends Fragment {
                             StartPoints = hiarl(sting);
 
                             String stdesc = sting.getString("description");
+                            String starttitle = "You";
 
                             if (curdiff > 50.0){
-                                String timece = pathFinder(StartPoints1, StartPoints,bil, stdesc1, stdesc, ctx);
-                                String timecec = pathFinder1(StartPoints, EndPoints,str2, stdesc, endesc, ctx);
+                                String timece = pathFinder(StartPoints1, StartPoints,starttitle,bil, stdesc1, stdesc, ctx);
+                                String timecec = pathFinder1(StartPoints, EndPoints,bil,str2, stdesc, endesc, ctx);
                                 String aproxtimeece = times(timece, timecec);
                                 aprotme.setText("Total " + aproxtimeece);
                         }else{
-                                String timece = pathFinder(StartPoints, EndPoints, str2, stdesc1, endesc, ctx);
-                                String aproxtimeece = estimtime(timece);
-                                aprotme.setText(aproxtimeece);
+                                String actualpath = pathFinder(StartPoints, EndPoints,starttitle, str2, stdesc1, endesc, ctx);
+                                String thrubuild = String.valueOf((curdiff / 1.2));
+                                String totalaprox = times(actualpath, thrubuild);
+                                aprotme.setText(totalaprox);
                             }
                         } else {
                             aprotme.setText("You can only use this feature on campus");
@@ -208,6 +214,7 @@ public class MapsFragment extends Fragment {
             }, error -> aprotme.setText("Enter a valid destination"));
 
             queuemd.add(request);
+
         });
 
 
@@ -215,7 +222,7 @@ public class MapsFragment extends Fragment {
         clButton.setOnClickListener( v -> {
             et_text1.setText("");
             et_text2.setText("");
-            aprotme.setText("");
+            aprotme.setText(" ");
             map.getOverlays().clear();
             map.getOverlays().add(this.mRotationGestureOverlay);
             map.getOverlays().add(uLocationOverlay);
@@ -231,8 +238,11 @@ public class MapsFragment extends Fragment {
             try {
                 String topt = aprotme.getText().toString();
                 if (topt.startsWith("You")){
-                    aprotme.setText("");
+                    aprotme.setText(" ");
+                }if (topt.startsWith("Enable")){
+                    aprotme.setText(" ");
                 }
+
                 if (oncampus(uLocationOverlay.getMyLocation())) {
                     mapController.animateTo(uLocationOverlay.getMyLocation(), 20.1, (long) 2111,0f);
                 } else {
@@ -254,7 +264,7 @@ public class MapsFragment extends Fragment {
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildingstest,null, response -> {
                 try {
-                    aprotme.setText("");
+                    aprotme.setText(" ");
 
                     JSONObject sting = (JSONObject) response.get(str1);
                     JSONObject ening = (JSONObject) response.get(str2);
@@ -266,7 +276,7 @@ public class MapsFragment extends Fragment {
 
                     ArrayList<GeoPoint>EndPoints;
                     EndPoints = hiarl(ening);
-                    String times = pathFinder(StartPoints, EndPoints, str2 , stdesc,endesc, ctx);
+                    String times = pathFinder(StartPoints, EndPoints,str1, str2 , stdesc,endesc, ctx);
                     String aproxtimee = estimtime(times);
                     aprotme.setText(aproxtimee);
 
@@ -274,6 +284,7 @@ public class MapsFragment extends Fragment {
                     System.out.println("bong2");
                     md.printStackTrace();
                     aprotme.setText("Enter a valid Location/Destination.");
+
                 }
             }, error -> Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show());
             queuemd.add(request);
@@ -297,7 +308,7 @@ public class MapsFragment extends Fragment {
         return rootView;
     }
 
-    public String createPath(GeoPoint start, GeoPoint end,String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String createPath(GeoPoint start, GeoPoint end, String startn, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
         map.getOverlays().clear();
         MyLocationNewOverlay uLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx), map);
         uLocationOverlay.enableMyLocation();
@@ -314,8 +325,8 @@ public class MapsFragment extends Fragment {
         // Start markers
         Marker startMarker = new Marker(map);
         startMarker.setPosition(start);
-        String stPoint = et_text1.getText().toString();
-        if (stPoint.startsWith("")){
+        String stPoint = startn;
+        if (stPoint.startsWith(" ")){
             startMarker.setTitle("You");
         }else{
             startMarker.setTitle(stPoint);
@@ -347,7 +358,7 @@ public class MapsFragment extends Fragment {
         return timet;
     }
 
-    public String pathFinder(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String pathFinder(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints,String startn, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
 
         // Waypoint array
         GeoPoint shortest_start = null;
@@ -366,10 +377,10 @@ public class MapsFragment extends Fragment {
                 }
             }
         }
-        return createPath(shortest_start,shortest_end,endn,DescriptionStart,DescriptionEnd,ctx);
+        return createPath(shortest_start,shortest_end,startn,endn,DescriptionStart,DescriptionEnd,ctx);
 
     }
-    public String pathFinder1(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints,String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String pathFinder1(ArrayList<GeoPoint> startPoints, ArrayList<GeoPoint> endPoints,String startn,String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
 
         // Waypoint array
         GeoPoint shortest_start = null;
@@ -388,7 +399,7 @@ public class MapsFragment extends Fragment {
                 }
             }
         }
-        return createPath1(shortest_start,shortest_end,endn, DescriptionStart,DescriptionEnd,ctx);
+        return createPath1(shortest_start,shortest_end,startn,endn, DescriptionStart,DescriptionEnd,ctx);
 
     }
 
@@ -472,7 +483,7 @@ public class MapsFragment extends Fragment {
         return emp;
     }
 
-    public String createPath1(GeoPoint start, GeoPoint end, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
+    public String createPath1(GeoPoint start, GeoPoint end,String startn, String endn, String DescriptionStart, String DescriptionEnd, Context ctx){
         String timet = distancecalc(start,end,ctx)[1];
 
         // Waypoint array
@@ -482,7 +493,7 @@ public class MapsFragment extends Fragment {
         // Start markers
         Marker startMarker = new Marker(map);
         startMarker.setPosition(start);
-        String stPoint = et_text1.getText().toString();
+        String stPoint = startn;
         if (stPoint.startsWith("")){
             startMarker.setTitle("Your next location");
         }else{

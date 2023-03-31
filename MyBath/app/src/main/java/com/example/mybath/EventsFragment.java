@@ -38,35 +38,35 @@ public class EventsFragment extends Fragment {
             eventPageNetball.imageURL = "https://www.thesubath.com/asset/Event/6349/bluecrestnetball1.jpg?thumbnail_width=280&thumbnail_height=100&resize_type=ResizeWidth";
             eventPageNetball.location = "STV Courts";
             eventPageNetball.title = "Recreational Netball";
-            eventPageNetball.time = "25/02/23: 15:00-19:00";
+            eventPageNetball.time = "27/03/23: 15:00-19:00";
             eventPages.add(eventPageNetball);
 
             EventPage eventPosterSale = new EventPage();
             eventPosterSale.imageURL = "https://www.thesubath.com/asset/Event/23895/DSC_0012.jpg?thumbnail_width=550&thumbnail_height=550&resize_type=ResizeFitAll";
-            eventPosterSale.location = "Parade";
+            eventPosterSale.location = "Chancellors' Building";
             eventPosterSale.title = "Art & Poster Sale";
-            eventPosterSale.time = "25/02/23: 10:00-16:00";
+            eventPosterSale.time = "28/03/23: 10:00-16:00";
             eventPages.add(eventPosterSale);
 
             EventPage eventPagePeachy = new EventPage();
             eventPagePeachy.imageURL = "https://www.thesubath.com/asset/Event/15195/Peachy_Logo_Full-01.png?thumbnail_width=280&thumbnail_height=100&resize_type=ResizeWidth";
             eventPagePeachy.location = "The Plug and The Tub";
             eventPagePeachy.title = "Peachy Saturdays";
-            eventPagePeachy.time = "26/02/23: 10:30-03:00";
+            eventPagePeachy.time = "01/04/23: 10:30-03:00";
             eventPages.add(eventPagePeachy);
 
             EventPage eventPagePizza = new EventPage();
             eventPagePizza.imageURL = "https://www.thesubath.com/asset/Event/15195/PandB-thumb.jpg?thumbnail_width=280&thumbnail_height=100&resize_type=ResizeWidth";
-            eventPagePizza.location = "The Plug";
+            eventPagePizza.location = "The SU";
             eventPagePizza.title = "Pizza and Boardgames";
-            eventPagePizza.time = "27/02/23: 18:30-22:30";
+            eventPagePizza.time = "02/04/23: 18:30-22:30";
             eventPages.add(eventPagePizza);
 
             EventPage eventPageSalon = new EventPage();
             eventPageSalon.imageURL = "https://www.thesubath.com/asset/Event/6003/213-plasma-wide.jpg?thumbnail_width=280&thumbnail_height=100&resize_type=ResizeWidth";
             eventPageSalon.location = "The SU";
             eventPageSalon.title = "213 The Salon - Gillian";
-            eventPageSalon.time = "28/02/23: 09:00-17:00";
+            eventPageSalon.time = "04/04/23: 09:00-17:00";
             eventPages.add(eventPageSalon);
 
             eventsViewPager.setAdapter(new EventPageAdapter(eventPages));
